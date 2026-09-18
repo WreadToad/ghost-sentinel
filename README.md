@@ -3,10 +3,12 @@
 Hands-on cybersecurity home lab using VMware, Kali Linux, Metasploit, Splunk Enterprise, and Wireshark. This repository documents offensive testing, SIEM investigations, and quick-reference notes.
 
 ## Structure
-- `/homelab` — virtual environment documentation
-- `/notes` — quick-reference commands and filters
-- `/investigation-template` — SOC-style investigation templates
-- `/Connection` — connection setup and environment linking
+- `/homelab` — virtual environment and network architecture documentation
+- `/connection` — connection setup, IP assignments, and forwarder verification
+- `/investigation-template` — blank SOC-style investigation template
+- `/investigations` — completed, documented investigations (classification, severity, escalation)
+- `/playbooks` — alerting and escalation workflows *(in progress)*
+- `/notes/cheat sheets` — quick-reference commands and filters
 
 ## Environment
 - **Virtualization:** VMware
@@ -16,10 +18,9 @@ Hands-on cybersecurity home lab using VMware, Kali Linux, Metasploit, Splunk Ent
 
 ## Status
 🟢 Actively in progress
+
 ## Goals
-
 This homelab is built to demonstrate real SOC analyst skills, including:
-
 - Generating malicious activity in a controlled environment
 - Detecting attacks using Splunk Enterprise
 - Building alerts with meaningful thresholds
@@ -34,10 +35,8 @@ This homelab is built to demonstrate real SOC analyst skills, including:
 - Building correlation searches in Splunk
 
 ## Recommended Viewing Order
-
 1. Read `/homelab` to understand the environment
-2. Review `/Connection` to see how the lab was built
+2. Review `/connection` to see how the lab was built and verified
 3. Explore `/investigations` to see SOC-style analysis
-4. Check `/playbooks` to understand alerting workflows
-5. Use `/notes` for commands and quick references
-
+4. Check `/playbooks` to understand alerting workflows (in progress)
+5. Use `/notes/cheat sheets` for commands and quick references
