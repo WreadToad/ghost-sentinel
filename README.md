@@ -2,6 +2,16 @@
 
 Ghost Sentinel is a hands-on cybersecurity/SOC portfolio and homelab. It demonstrates practical, job-ready security operations skills — Splunk as a SIEM, Windows telemetry, and controlled attack simulation against Kali Linux and Metasploitable2 — through a real, documented investigation workflow rather than just a collection of tools.
 
+## START HERE
+
+New to this repo? In two minutes:
+
+- **What this is:** a hands-on SOC home lab where I build a monitored environment, generate controlled security events, and investigate them the way an analyst would.
+- **See the work:** open `/investigations` for documented investigations.
+- **See the environment:** open `/homelab` and `/architecture`.
+
+Everything here is an educational lab simulation, not professional or production experience.
+
 ## Security Workflow
 Every investigation in this repo follows the same coherent pipeline, from raw signal to written conclusion:
 
