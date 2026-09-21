@@ -2,27 +2,28 @@
 
 This page documents Ghost Sentinel's actual current architecture and its planned direction. Anything marked **PLANNED** is not yet built. It's the direction this project is heading, documented honestly rather than implied as already in place.
 
-## Current Architecture (built and verified)
-- VMware Host-Only network, isolating the lab from the internet
-- Kali Linux (attacker) — 192.168.112.130
-- Metasploitable2 (target) — 192.168.112.128
-- Windows host running Splunk Enterprise (indexer/search head) plus the Splunk Universal Forwarder
+## Current Architecture (built)
+- VMware Workstation Pro with a NAT network using private, lab-only addressing
+- Kali Linux (attacker) and Metasploitable2 (target) virtual machines
+- Windows Server 2022 SIEM VM running Splunk Enterprise 10.4.2, with Windows Security, System and Sysmon (Operational) events collected by local inputs into a dedicated `homelab` index
 - Wireshark for packet-level traffic analysis
-- One working Splunk alert (failed-logon threshold / brute force detection) with email notification, fully documented in `/investigations`
+- One Splunk alert (failed-logon threshold / brute force detection), documented in `/investigations`
 
-See `/homelab` and `/connection` for the full documented setup and verification steps behind this list.
+Not yet connected: Kali and Metasploitable2 do not forward logs to Splunk yet.
+
+See `/homelab` and `/connection` for the documented setup and verification steps behind this list.
 
 ## Planned Architecture
-Everything below is a roadmap item, not a completed component.
+Everything below is a roadmap item unless noted, not a completed component.
 
 ### Identity & Cloud — PLANNED
 - **Azure** tenant to host cloud-side identity and logging
 - **Microsoft Entra ID** for user/group identity, conditional access concepts, and sign-in log ingestion into Splunk
 - Goal: show how identity telemetry (cloud) correlates with endpoint and network telemetry (on-prem) during an investigation
 
-### Endpoint Telemetry — PLANNED
-- **Sysmon** deployed on Windows hosts for process creation, network connection, and file/registry telemetry
-- Sysmon logs forwarded into Splunk alongside Windows Security events
+### Endpoint Telemetry — PARTIAL
+- **Sysmon** is running on the SIEM VM and its events are indexed in Splunk (default configuration, noisy; tuning is a later step)
+- PLANNED: Sysmon on additional hosts, forwarded into Splunk
 - Goal: detect and investigate process-level attacker behavior (e.g. living-off-the-land binaries), not just authentication events
 
 ### Network Security Monitoring — PLANNED
@@ -46,4 +47,3 @@ Everything below is a roadmap item, not a completed component.
 
 ## Why document this before it's built?
 A credible portfolio shows both what's done and where it's going. Ghost Sentinel is built progressively — this roadmap exists so anyone reviewing the repo (a hiring manager, a mentor, future me) can see the honest state of the project: what's real, working evidence today, and what's the deliberate next step.
-
