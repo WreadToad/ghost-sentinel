@@ -1,55 +1,29 @@
 # Lab Connection Overview
 
-This document explains how each virtual machine and service in the homelab
-connects to one another, including network mode, IP assignments, Splunk
-forwarding, and traffic flow.
+This document explains how the virtual machines and Splunk connect in the lab: network mode, data flow, and how ingestion was verified. Private lab IP addresses are intentionally omitted.
 
 ## Network Mode
-- **VMware Network:** Host-Only (Custom)
-- **Purpose:** Provides an isolated environment where Kali, Metasploitable2,
-  and Splunk can communicate without touching the external internet.
+- **VMware network:** NAT with private, lab-only addressing
+- **Purpose:** Lets the lab machines communicate with each other in a contained virtual environment.
 
-## IP Assignments
-- **Kali Linux (Attacker):** 192.168.112.130  
-  - Verified via `ip a`  
-  - Successful ICMP ping to Metasploitable2
+## Machines
+- **Kali Linux (attacker):** offensive tooling; used for planned attack simulations
+- **Metasploitable2 (target):** intentionally vulnerable target; used for planned attack simulations
+- **Windows Server 2022 (SIEM VM):** runs Splunk Enterprise 10.4.2 and is the source of the Windows telemetry
 
-- **Metasploitable2 (Target):** 192.168.112.128  
-  - Responds to ICMP  
-  - Used for attack simulation
+## Current Data Flow
+1. Windows Security, System and Sysmon (Operational) event logs on the SIEM VM are collected by local Splunk inputs (no separate forwarder).
+2. Events are indexed into a dedicated `homelab` index.
+3. Searches and alerts run in Splunk against that index.
 
-- **Windows Host (Splunk Forwarder):** Localhost → Splunk Indexer  
-  - Forwarder service running  
-  - Sends logs to Splunk on port **9997**
+## Verification
+- Ingestion health checked by counting events per sourcetype in `index=homelab` and confirming recent timestamps for Security, System and Sysmon.
+- Baseline of account, logon and process activity documented before running the privilege-escalation scenario (see `/investigations`).
 
-## Connectivity Verification
-
-### Kali → Metasploitable2
-- Verified via ICMP ping  
-- Screenshot included in investigations  
-- Confirms both machines share the same network segment
-
-### Splunk Forwarder → Splunk Indexer
-- Forwarder service is **Running**  
-- Startup type: **Automatic**  
-- Logs successfully sent to Splunk  
-- Verified via:
-  - `index=_internal source=*metrics.log* group=tcpin_connections`
-  - Shows active TCP ingestion on port 9997
-
-### Windows → Splunk (homelab index)
-- Windows Security logs successfully ingested  
-- Verified via:
-  - `index=homelab`  
-  - EventCode 5379 and other security events
-
-## Traffic Flow
-1. Kali performs scans or attacks against Metasploitable2.
-2. Metasploitable2 responds, generating network traffic.
-3. Wireshark captures packets for analysis.
-4. Windows Forwarder sends logs to Splunk.
-5. Splunk indexes logs for investigation and correlation.
+## Not Built Yet
+- Forwarding logs from Kali and Metasploitable2 into Splunk
+- Sysmon on additional hosts, with forwarding into Splunk
+- Wireshark-based network captures tied into investigations
 
 ## Purpose
-This connection overview ensures all machines and services are properly
-networked before running investigations, attacks, or log ingestion workflows.
+This overview confirms the machines and telemetry pipeline are in place before running attacks or investigations.
