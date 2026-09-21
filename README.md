@@ -25,12 +25,12 @@ Every investigation in this repo follows the same coherent pipeline, from raw si
 - `/investigations` — completed, documented investigations (classification, severity, escalation)
 - `/playbooks` — alerting and escalation workflows (in progress)
 - `/notes/cheat sheets` — quick-reference commands and filters
-
-## Current Environment (built and verified today)
+ 
+## Current Environment
 - **Virtualization:** VMware
 - **Offensive tools:** Kali Linux, Metasploit
 - **Target:** Metasploitable2
-- **SIEM:** Splunk Enterprise
+- **SIEM:** Splunk Enterprise 10.4.2 (dedicated Windows Server 2022 VM)
 - **Traffic analysis:** Wireshark
 
 See `/architecture` for the full target environment, including what's planned but not yet built.
